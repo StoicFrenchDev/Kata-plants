@@ -1,20 +1,11 @@
 <?php
 /**
- * Créer une fonction arroser() qui le tableau qui suit en paramètre et arrose 
+ * Créer une fonction arroser() qui prend le tableau qui suit en paramètre et arrose
  * chaque plante de 20cl et fait donc augmenter leur niveau d'eau d'autant.
- * 
+ *
  * Puis hors de la fonction afficher les plantes par ordre alphabétique
  * et leur nouveau niveau d'eau
  */
-
- function arroser(array $plants): array
- {
-    for ($i=0; $i < count($plants); $i++) { 
-        $plants[$i]['waterLevel'] += 20;
-    }
-
-    return $plants;
- }
 
 $plants = [
     ['name'=> 'Ficus', "waterLevel" => 54 ],
@@ -26,12 +17,23 @@ $plants = [
     ['name'=> 'Hortensia', "waterLevel" => 7 ],
 ];
 
-$plants = arroser($plants);
+// 1 - La méthode
+function arroser(array $plants): array
+{
+   for ($i=0; $i < count($plants); $i++) {
+       $plants[$i]['waterLevel'] += 20;
+   }
 
-usort($plants, function ($a, $b) {
-    return ($a['name'] < $b['name']) ? -1 : 1;
-});
+   return $plants;
+}
 
-foreach($plants as $plant) {
-    echo $plant['name'] . ' - eau : ' . $plant['waterLevel'] . PHP_EOL;
+// 2 - Son utilisation
+$wateredPlants = arroser($plants);
+
+// 3 - Tri du tableau
+array_multisort(array_column($wateredPlants, 'name'), SORT_ASC, $wateredPlants);
+
+// 4 - Displaying the plants
+foreach($wateredPlants as $wateredPlant) {
+    echo $wateredPlant['name'] . ' - eau : ' . $wateredPlant['waterLevel'] . PHP_EOL;
 }
